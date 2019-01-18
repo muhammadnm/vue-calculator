@@ -19,7 +19,7 @@
     <div @click="add" class="btn operator">+</div>
     <div @click="append('0')" class="btn zero">0</div>
     <div @click="dot" class="btn">.</div>
-    <div @click="equal" class="btn operator">=</div>
+    <div @click="calculate" class="btn operator">=</div>
   </div>
 </template>
 
@@ -76,12 +76,13 @@ export default {
       this.operator = (a, b) => a + b;
       this.setPrevious();
     },
-    equal() {
+    calculate() {
       this.current = `${this.operator(
-        parseFloat(this.current), 
-        parseFloat(this.previous)
+        parseFloat(this.previous),
+        parseFloat(this.current)
       )}`;
       this.previous = null;
+      this.operatorClicked = true;
     }
   }
 }
@@ -90,8 +91,10 @@ export default {
 <style scoped>
 .calculator {
   margin: 0 auto;
-  width: 400px;
-  font-size: 40px;
+  width: 360px;
+  border-radius: 10px; 
+  font-size: 30px;
+  line-height: 60px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: minmax(50px, auto);
@@ -101,6 +104,8 @@ export default {
   grid-column: 1 / 5;
   background-color: #333;
   color: white;
+  padding: 0.5em;
+  text-align: right;
 }
 
 .zero {
@@ -109,9 +114,13 @@ export default {
 
 .btn {
   background-color: #F2F2F2;
-  border: 1px solid #999;
+  border: 1px solid #CCC;
+  cursor: pointer;
 }
 
+.btn:active {
+  background-color: #e0e0e0;
+}
 .operator {
   background-color: orange;
   color: white;
